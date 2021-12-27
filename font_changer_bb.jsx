@@ -18,7 +18,11 @@
 
 var sourceFolder = Folder.selectDialog( 'フォントの変えたいファイルはどこにありますか？フォルダを選択してください');
 var files = new Array ();
+<<<<<<< HEAD
 var found_font_array = new Array ();　//holds all found fonts names, full of duplicates　
+=======
+var found_font_array = new Array ();　//holds all found fonts names, full of duplicates
+>>>>>>> a565f5dffdb714ec6fbcb343803d34f6cbbc66db
 var found_family_array = new Array (); // holds the found font family names
 var found_style_array = new Array (); // holds the found font style names
 

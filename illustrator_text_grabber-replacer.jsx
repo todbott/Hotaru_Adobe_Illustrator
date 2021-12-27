@@ -3,7 +3,11 @@
 
 
 function dialog () {
+<<<<<<< HEAD
     var box = new Window('dialog', "抽出か・入力か");   
+=======
+    var box = new Window('dialog', "抽出か・入力か");  
+>>>>>>> a565f5dffdb714ec6fbcb343803d34f6cbbc66db
 
     box.export_panel = box.add('panel', undefined);
     box.export_panel.add('statictext', undefined, '逆引ヘルパーを使う前に、');
