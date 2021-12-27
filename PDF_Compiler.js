@@ -9,7 +9,7 @@ if (cRtn && cRtn.length) {
 	var new_path = cRtn; 
 } else {
 	app.alert("停止になりました。");
-}
+} 
 
 
 var AOneInDesign = 
