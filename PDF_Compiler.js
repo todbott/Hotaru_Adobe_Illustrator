@@ -68,21 +68,15 @@ function DialogShower () {
 
 	app.execDialog(dialog);
 	
-	// Get the path to save each PDF
-	var cRtn = app.response ({ 
-		cQuestion:"各PDFを保存したいパースを入力してください\n(例　C:\\Users\\Fukuda\\Desktop\\", 
-		cTitle:"セーブパース", 
-		bPassword:false, 
-		cDefault: "C:\\Users\\Fukuda\\Desktop\\", 
-		cLabel:"path&name"}); 
-	if (cRtn && cRtn.length) { 
-		var new_path = cRtn; 
-	} else {
-		app.alert("停止になりました。");
-	} 
-	
 	if (goon == 1)
 	{
+		
+		// Set the trim box equal to the art box for all pages,
+		// effectively making the trim set to zero
+		for (var p = 0; p < this.numPages; p++) {
+			this.setPageBoxes("Crop", p, p, this.getPageBox("Media", p));
+		}
+		
 		if (choice == 1) {
 
 			var AOneInDesign = 
@@ -111,21 +105,25 @@ function DialogShower () {
 					realPage = 1;
 				} 
 				var that = this.extractPages(realPage, realPage);
-				console.println(AOneInDesign[p-1])
 				that.setPageBoxes("Crop", 0, 0, AOneInDesign[p-1]);
+				var new_path = fixPath(that.path, p);
 				that.saveAs(new_path + p + ".pdf")
-				that.closeDoc()
-				
+				that.closeDoc(true)
 			}
+			
+		
 
 			for (var p = 16; p > 0; p--) {
 				this.insertPages({
 					cPath: new_path + p + ".pdf"
 				});
+				
 			}
 
 			this.deletePages(0, 0)
 			this.deletePages(16, 16)
+			
+			this.saveAs(this.path.replace(".pdf", "_まとめ.pdf"))
 
 		}
 		
@@ -151,8 +149,9 @@ function DialogShower () {
 				} 
 				var that = this.extractPages(realPage, realPage);
 				that.setPageBoxes("Crop", 0, 0, ATwoInDesign[p-1]);
+				var new_path = fixPath(that.path, p);
 				that.saveAs(new_path + p + ".pdf")
-				that.closeDoc()
+				that.closeDoc(true)
 			}
 
 			for (var p = 8; p > 0; p--) {
@@ -163,10 +162,18 @@ function DialogShower () {
 
 			this.deletePages(0, 0)
 			this.deletePages(8, 8)
+			
+			this.saveAs(this.path.replace(".pdf", "_まとめ.pdf"))
 
 		}
 		
 	}
+}
+
+function fixPath(path, p) {
+	var new_path_no_colon = path.split("/").slice(1, path.split("/").length-1)
+	new_path_no_colon[0] = new_path_no_colon[0] + ":"
+	return new_path_no_colon.join("\\") + "\\"
 }
 
 DialogShower()
